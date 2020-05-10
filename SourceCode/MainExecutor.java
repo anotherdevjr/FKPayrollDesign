@@ -1,6 +1,8 @@
 import contorller.SystemController;
 import models.Employee;
 import models.HourlyEmployee;
+import models.paymentmodes.BankMode;
+import models.paymentmodes.PostalMode;
 import utils.TimeUtils;
 
 import java.util.List;
@@ -40,6 +42,74 @@ public class MainExecutor {
 
     }
 
+
+    public static void showAddEmployeeInterface(Scanner sc, SystemController systemController) {
+        System.out.println("\n\nAdd New Employee");
+        System.out.print("Enter Name of Employee => ");
+        //Consuming the enter pressed
+        String name = sc.nextLine();
+        System.out.print("Is the employee salaried (Enter 1) or hourly worker (Enter 2)? => ");
+        int type = sc.nextInt();
+        if (type == 2) {
+            System.out.print("Enter the hourly rate of the employee => ");
+            double hourlyRate = sc.nextDouble();
+            sc.nextLine();
+            String employeeId = systemController.addHourlyEmployee(name, hourlyRate);
+            updatePaymentDetails(employeeId, sc, systemController);
+        } else if (type == 1) {
+            System.out.print("Enter the monthly salary of the employee => ");
+            double salary = sc.nextDouble();
+            sc.nextLine();
+            System.out.print("Enter the sales commission rate of the employee => ");
+            double commissionRate = sc.nextDouble();
+            String employeeId = systemController.addSalariedEmployee(name, salary, commissionRate);
+            updatePaymentDetails(employeeId, sc, systemController);
+        } else {
+            System.out.println("Invalid option entered.");
+        }
+    }
+
+    private static void updatePaymentDetails(String employeeId, Scanner sc, SystemController systemController) {
+        System.out.println("\nAdded Employee. Employee Id is :" + employeeId);
+        System.out.print("Mode of payment has been set to pickup. Do you want to change Y or N :");
+        String choice = sc.nextLine();
+        if (choice.equals("N")) return;
+
+        System.out.println("Which mode of payment you wish to set :");
+        System.out.println("1. Postal Mode");
+        System.out.println("2. Bank Deposit Mode");
+        int mode = sc.nextInt();
+        sc.nextLine();
+
+        if (mode == 1) {
+            System.out.println("Enter the postal address =>");
+            String address = sc.nextLine();
+            systemController.setPaymentMode(employeeId, new PostalMode(address));
+        } else if (mode == 2) {
+            System.out.println("Enter the bank account number");
+            String accountNumber = sc.nextLine();
+            systemController.setPaymentMode(employeeId, new BankMode(accountNumber));
+        } else {
+            System.out.println("Invalid option entered. Default payment mode applied.");
+        }
+    }
+
+
+
+    public static void showDeleteEmployeeInterface(Scanner sc, SystemController systemController) {
+        System.out.println("\n\nDelete New Employee");
+        System.out.print("Do you want to view employee list? Y or N => ");
+        String choice = sc.next();
+        sc.nextLine();
+        if (choice.equals("Y")) {
+            showEmployeeList(systemController.getEmployeeList(Employee.getStartingCode()));
+        }
+
+        System.out.print("Enter Employee Id of Employee to be deleted => ");
+        String id = sc.nextLine();
+        systemController.deleteEmployeeWithId(id);
+    }
+
     private static void showPostTimeCardInterface(Scanner sc, SystemController systemController) {
         System.out.println("\n\nPost New Time Card");
         System.out.print("Do you want to view employee list? Y or N => ");
@@ -65,43 +135,6 @@ public class MainExecutor {
         systemController.postTimeStamp(id, dateInMillis, hours);
     }
 
-    public static void showAddEmployeeInterface(Scanner sc, SystemController systemController) {
-        System.out.println("\n\nAdd New Employee");
-        System.out.print("Enter Name of Employee => ");
-        //Consuming the enter pressed
-        String name = sc.nextLine();
-        System.out.print("Is the employee salaried (Enter 1) or hourly worker (Enter 2)? => ");
-        int type = sc.nextInt();
-        if (type == 1) {
-            System.out.print("Enter the hourly rate of the employee => ");
-            double hourlyRate = sc.nextDouble();
-
-            systemController.addHourlyEmployee(name, hourlyRate);
-        } else if (type == 2) {
-            System.out.print("Enter the monthly salary of the employee => ");
-            double salary = sc.nextDouble();
-            sc.nextLine();
-            System.out.print("Enter the sales commission rate of the employee => ");
-            double commissionRate = sc.nextDouble();
-            systemController.addSalariedEmployee(name, salary, commissionRate);
-        } else {
-            System.out.println("Invalid option entered.");
-        }
-    }
-
-    public static void showDeleteEmployeeInterface(Scanner sc, SystemController systemController) {
-        System.out.println("\n\nDelete New Employee");
-        System.out.print("Do you want to view employee list? Y or N => ");
-        String choice = sc.next();
-        sc.nextLine();
-        if (choice.equals("Y")) {
-            showEmployeeList(systemController.getEmployeeList(Employee.getStartingCode()));
-        }
-
-        System.out.print("Enter Employee Id of Employee to be deleted => ");
-        String id = sc.nextLine();
-        systemController.deleteEmployeeWithId(id);
-    }
 
     public static void showEmployeeList(List<Employee> employees) {
         System.out.println("ID\t\t Name");

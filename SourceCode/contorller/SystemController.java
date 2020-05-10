@@ -4,6 +4,8 @@ import database.DatabaseProvider;
 import models.Employee;
 import models.HourlyEmployee;
 import models.SalariedEmployee;
+import models.paymentmodes.PaymentMode;
+import models.paymentmodes.PostalMode;
 import utils.EmployeeIDGenerator;
 
 import java.util.ArrayList;
@@ -54,5 +56,10 @@ public class SystemController {
 
     public void runPayRollTill(long timeInMillis) {
         payrollController.runPayroll(timeInMillis);
+    }
+
+    public void setPaymentMode(String employeeId, PaymentMode paymentMode) {
+        Employee employee  = databaseProvider.queryEmployeeById(employeeId);
+        employee.setPaymentMode(paymentMode);
     }
 }

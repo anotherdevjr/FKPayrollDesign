@@ -50,6 +50,12 @@ public class TimeUtils {
         }
     }
 
+    public static int getMonthFromMillis(long timeInMillis) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(timeInMillis);
+        return calendar.get(Calendar.MONTH);
+    }
+
     public static String getDateStringFromMillis(long timeInMillis) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(timeInMillis);

@@ -1,4 +1,6 @@
 import contorller.SystemController;
+import models.paymentmodes.BankMode;
+import models.paymentmodes.PostalMode;
 import utils.TimeUtils;
 
 public class TemporaryDataFiller {
@@ -18,5 +20,8 @@ public class TemporaryDataFiller {
         systemController.postTimeStamp(id2, today, 8);
         systemController.postTimeStamp(id3, today - TimeUtils.MILLIS_IN_DAY, 10);
         systemController.postTimeStamp(id2, today - 8 * TimeUtils.MILLIS_IN_DAY, 8);
+
+        systemController.setPaymentMode(id1, new BankMode("132200110011"));
+        systemController.setPaymentMode(id4, new PostalMode("221 B, Baker Street, London"));
     }
 }
