@@ -1,6 +1,9 @@
 import contorller.SystemController;
 import models.Employee;
+import models.HourlyEmployee;
+import utils.TimeUtils;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MainExecutor {
@@ -26,8 +29,35 @@ public class MainExecutor {
                 showAddEmployeeInterface(sc, systemController);
             } else if (option == 2) {
                 showDeleteEmployeeInterface(sc, systemController);
+            } else if (option == 3) {
+                showPostTimeCardInterface(sc, systemController);
             }
         } while(option < 7);
+    }
+
+    private static void showPostTimeCardInterface(Scanner sc, SystemController systemController) {
+        System.out.println("\n\nDelete New Employee");
+        System.out.print("Do you want to view employee list? Y or N => ");
+        String choice = sc.next();
+        sc.nextLine();
+        if (choice.equals("Y")) {
+            // Showing only the Hourly Employees since other do not have time cards feature
+            showEmployeeList(systemController.getEmployeeList(HourlyEmployee.getStartingCode()));
+        }
+
+        System.out.print("Enter Employee Id of Employee to add  => ");
+        String id = sc.nextLine();
+
+        System.out.print("How many days elapsed since the time card. Today is 0, Yesterday = 1, so on => ");
+        int shift = sc.nextInt();
+        sc.next();
+        long dateInMillis = TimeUtils.getTodayDateInMillis() - shift * TimeUtils.MILLIS_IN_DAY;
+
+        System.out.print("Hours worked on that day => ");
+        int hours = sc.nextInt();
+        sc.next();
+
+        systemController.postTimeStamp(id, dateInMillis, hours);
     }
 
     public static void showAddEmployeeInterface(Scanner sc, SystemController systemController) {
@@ -48,7 +78,6 @@ public class MainExecutor {
             sc.nextLine();
             System.out.print("Enter the sales commission rate of the employee => ");
             double commissionRate = sc.nextDouble();
-
             systemController.addSalariedEmployee(name, salary, commissionRate);
         } else {
             System.out.println("Invalid option entered.");
@@ -61,13 +90,20 @@ public class MainExecutor {
         String choice = sc.next();
         sc.nextLine();
         if (choice.equals("Y")) {
-            System.out.println("ID\t\t Name");
-            for(Employee employee: systemController.getEmployeeList()) {
-                System.out.println(employee.getId() + "\t" + employee.getName());
-            }
+            showEmployeeList(systemController.getEmployeeList(Employee.getStartingCode()));
         }
 
-        System.out.print("\nEnter Employee Id of Employee to be deleted => ");
+        System.out.print("Enter Employee Id of Employee to be deleted => ");
         String id = sc.nextLine();
+        systemController.deleteEmployeeWithId(id);
+    }
+
+    public static void showEmployeeList(ArrayList<Employee> employees) {
+        System.out.println("ID\t\t Name");
+        System.out.println("-----------------------------------------");
+        for(Employee employee: employees) {
+            System.out.println(employee.getId() + "\t" + employee.getName());
+        }
+        System.out.println("\n\n");
     }
 }

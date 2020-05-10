@@ -22,6 +22,10 @@ public class SalariedEmployee extends Employee{
         return salary;
     }
 
+    public static String getStartingCode() {
+        return "S";
+    }
+
     public double getSalesCommission() {
         ArrayList<SalesReceipt> allSalesReceipt = getDatabaseProvider().getSalesReceiptListForEmployee(getId());
         double commision = 0;

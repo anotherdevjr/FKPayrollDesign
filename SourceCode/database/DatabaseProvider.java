@@ -16,8 +16,16 @@ public class DatabaseProvider {
         salesReceiptList = new ArrayList<>();
     }
 
-    public ArrayList<Employee> queryEmployeeList() {
+    public ArrayList<Employee> queryEmployeeList(String startingCode) {
         return employeeList;
+    }
+
+    public Employee queryEmployeeById(String employeeId) {
+        for (Employee e : employeeList) {
+            if (e.getId().equals(employeeId))
+                return e;
+        }
+        return null;
     }
 
     public void addEmployee(Employee employee) {

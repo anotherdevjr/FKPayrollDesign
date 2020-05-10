@@ -31,7 +31,17 @@ public class SystemController {
         databaseProvider.deleteEmployeeById(employeeId);
     }
 
-    public ArrayList<Employee> getEmployeeList() {
-        return databaseProvider.queryEmployeeList();
+    public ArrayList<Employee> getEmployeeList(String startIndex) {
+        return databaseProvider.queryEmployeeList(startIndex);
+    }
+
+    public void postTimeStamp(String id, long dateInMillis, int hours) {
+        Employee employee  = databaseProvider.queryEmployeeById(id);
+        if (employee == null) {
+            return;
+        }
+        if (employee instanceof HourlyEmployee) {
+            ((HourlyEmployee) employee).postTimeStamp(dateInMillis, hours);
+        }
     }
 }

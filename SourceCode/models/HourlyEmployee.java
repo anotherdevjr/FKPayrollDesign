@@ -23,4 +23,8 @@ public class HourlyEmployee extends Employee {
         }
         return pay;
     }
+
+    public static String getStartingCode() {
+        return "H";
+    }
 }

@@ -25,5 +25,10 @@ public abstract class Employee {
     }
 
     public String getName() { return name; }
+
     public abstract double getPay();
+
+    public static String getStartingCode() {
+        return "*";
+    }
 }
