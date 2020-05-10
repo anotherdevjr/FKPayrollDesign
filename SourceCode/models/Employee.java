@@ -1,23 +1,23 @@
 package models;
 
-import database.EmployeeProvider;
+import database.DatabaseProvider;
 
 public abstract class Employee {
     private String id;
     private String name;
-    private EmployeeProvider employeeProvider;
+    private DatabaseProvider databaseProvider;
 
     public Employee(String id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public void setProvider(EmployeeProvider employeeProvider) {
-        this.employeeProvider = employeeProvider;
+    public void setDatabaseProvider(DatabaseProvider databaseProvider) {
+        this.databaseProvider = databaseProvider;
     }
 
-    public EmployeeProvider getEmployeeProvider() {
-        return employeeProvider;
+    public DatabaseProvider getDatabaseProvider() {
+        return databaseProvider;
     }
 
     public String getId() {

@@ -13,8 +13,8 @@ public class SalariedEmployee extends Employee{
         this.commissionRate = commissionRate;
     }
 
-    public void postSalesReceipt(SalesReceipt salesReceipt) {
-        getEmployeeProvider().postSalesReceipt(getId(), salesReceipt);
+    public void postSalesReceipt(SalesReceipt    salesReceipt) {
+        getDatabaseProvider().postSalesReceipt(getId(), salesReceipt);
     }
 
     @Override
@@ -23,7 +23,7 @@ public class SalariedEmployee extends Employee{
     }
 
     public double getSalesCommission() {
-        ArrayList<SalesReceipt> allSalesReceipt = getEmployeeProvider().getSalesReceiptListForEmployee(getId());
+        ArrayList<SalesReceipt> allSalesReceipt = getDatabaseProvider().getSalesReceiptListForEmployee(getId());
         double commision = 0;
         for(SalesReceipt receipt : allSalesReceipt) {
             commision += receipt.getSalesAmount() * commissionRate;

@@ -5,12 +5,12 @@ import models.SalesReceipt;
 import models.TimeStamp;
 import java.util.ArrayList;
 
-public class EmployeeProvider {
+public class DatabaseProvider {
     private final ArrayList<Employee> employeeList;
     private final ArrayList<TimeStamp> timeStampList;
     private final ArrayList<SalesReceipt> salesReceiptList;
 
-    public EmployeeProvider() {
+    public DatabaseProvider() {
         employeeList = new ArrayList<>();
         timeStampList = new ArrayList<>();
         salesReceiptList = new ArrayList<>();
