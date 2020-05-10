@@ -1,6 +1,7 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class HourlyEmployee extends Employee {
     private double hourlyRate;
@@ -15,8 +16,8 @@ public class HourlyEmployee extends Employee {
     }
 
     @Override
-    public double getPay() {
-        ArrayList<TimeStamp> timeStamps = getDatabaseProvider().getTimeStampsForEmployee(getId());
+    public double getPay(long endDate) {
+        List<TimeStamp> timeStamps = getDatabaseProvider().getTimeStampsForEmployee(getId(), endDate);
         double pay = 0;
         for (TimeStamp timeStamp: timeStamps) {
             pay += timeStamp.getPayForDay();

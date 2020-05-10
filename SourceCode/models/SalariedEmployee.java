@@ -1,6 +1,7 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SalariedEmployee extends Employee{
 
@@ -18,7 +19,7 @@ public class SalariedEmployee extends Employee{
     }
 
     @Override
-    public double getPay() {
+    public double getPay(long endDate) {
         return salary;
     }
 
@@ -26,8 +27,8 @@ public class SalariedEmployee extends Employee{
         return "S";
     }
 
-    public double getSalesCommission() {
-        ArrayList<SalesReceipt> allSalesReceipt = getDatabaseProvider().getSalesReceiptListForEmployee(getId());
+    public double getSalesCommission(long endDate) {
+        List<SalesReceipt> allSalesReceipt = getDatabaseProvider().getSalesReceiptListForEmployee(getId(), endDate);
         double commision = 0;
         for(SalesReceipt receipt : allSalesReceipt) {
             commision += receipt.getSalesAmount() * commissionRate;

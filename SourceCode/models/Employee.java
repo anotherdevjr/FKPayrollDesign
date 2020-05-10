@@ -26,9 +26,9 @@ public abstract class Employee {
 
     public String getName() { return name; }
 
-    public abstract double getPay();
+    public abstract double getPay(long endDate);
 
     public static String getStartingCode() {
-        return "*";
+        return "";
     }
 }

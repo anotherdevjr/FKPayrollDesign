@@ -7,31 +7,38 @@ import models.SalariedEmployee;
 import utils.EmployeeIDGenerator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class SystemController {
 
-    private DatabaseProvider databaseProvider;
+    private final DatabaseProvider databaseProvider;
+    private final PayrollController payrollController;
 
     public SystemController() {
         databaseProvider = new DatabaseProvider();
+        payrollController = new PayrollController(databaseProvider);
     }
 
-    public void addHourlyEmployee(String name, double hourlyRate) {
+    public String addHourlyEmployee(String name, double hourlyRate) {
         String randomId = EmployeeIDGenerator.getEmployeeId("H", 5);
         databaseProvider.addEmployee(new HourlyEmployee(randomId, name, hourlyRate));
+
+        return randomId;
     }
 
-    public void addSalariedEmployee(String name, double salary, double commissionRate) {
+    public String addSalariedEmployee(String name, double salary, double commissionRate) {
         String randomId = EmployeeIDGenerator.getEmployeeId("E", 5);
         databaseProvider.addEmployee(new SalariedEmployee(randomId, name, salary, commissionRate));
+
+        return randomId;
     }
 
     public void deleteEmployeeWithId(String employeeId) {
         databaseProvider.deleteEmployeeById(employeeId);
     }
 
-    public ArrayList<Employee> getEmployeeList(String startIndex) {
+    public List<Employee> getEmployeeList(String startIndex) {
         return databaseProvider.queryEmployeeList(startIndex);
     }
 
@@ -43,5 +50,9 @@ public class SystemController {
         if (employee instanceof HourlyEmployee) {
             ((HourlyEmployee) employee).postTimeStamp(dateInMillis, hours);
         }
+    }
+
+    public void runPayRollTill(long timeInMillis) {
+        payrollController.runPayroll(timeInMillis);
     }
 }

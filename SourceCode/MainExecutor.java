@@ -3,13 +3,15 @@ import models.Employee;
 import models.HourlyEmployee;
 import utils.TimeUtils;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class MainExecutor {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         SystemController systemController = new SystemController();
+        TemporaryDataFiller.fillTemporaryData(systemController);
+
 
         int option = 0;
         do {
@@ -31,12 +33,15 @@ public class MainExecutor {
                 showDeleteEmployeeInterface(sc, systemController);
             } else if (option == 3) {
                 showPostTimeCardInterface(sc, systemController);
+            } else if (option == 6) {
+                systemController.runPayRollTill(TimeUtils.getTodayDateInMillis());
             }
         } while(option < 7);
+
     }
 
     private static void showPostTimeCardInterface(Scanner sc, SystemController systemController) {
-        System.out.println("\n\nDelete New Employee");
+        System.out.println("\n\nPost New Time Card");
         System.out.print("Do you want to view employee list? Y or N => ");
         String choice = sc.next();
         sc.nextLine();
@@ -45,17 +50,17 @@ public class MainExecutor {
             showEmployeeList(systemController.getEmployeeList(HourlyEmployee.getStartingCode()));
         }
 
-        System.out.print("Enter Employee Id of Employee to add  => ");
+        System.out.print("Enter Employee Id of Employee to add time card to  => ");
         String id = sc.nextLine();
 
         System.out.print("How many days elapsed since the time card. Today is 0, Yesterday = 1, so on => ");
         int shift = sc.nextInt();
-        sc.next();
+        sc.nextLine();
         long dateInMillis = TimeUtils.getTodayDateInMillis() - shift * TimeUtils.MILLIS_IN_DAY;
 
         System.out.print("Hours worked on that day => ");
         int hours = sc.nextInt();
-        sc.next();
+        sc.nextLine();
 
         systemController.postTimeStamp(id, dateInMillis, hours);
     }
@@ -98,7 +103,7 @@ public class MainExecutor {
         systemController.deleteEmployeeWithId(id);
     }
 
-    public static void showEmployeeList(ArrayList<Employee> employees) {
+    public static void showEmployeeList(List<Employee> employees) {
         System.out.println("ID\t\t Name");
         System.out.println("-----------------------------------------");
         for(Employee employee: employees) {

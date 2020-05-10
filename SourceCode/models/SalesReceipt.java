@@ -12,4 +12,8 @@ public class SalesReceipt {
     public double getSalesAmount() {
         return salesAmount;
     }
+
+    public long getDateInMillis() {
+        return dateInMillis;
+    }
 }
