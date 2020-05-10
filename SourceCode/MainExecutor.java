@@ -1,6 +1,7 @@
 import contorller.SystemController;
 import models.Employee;
 import models.HourlyEmployee;
+import models.SalariedEmployee;
 import models.paymentmodes.BankMode;
 import models.paymentmodes.PostalMode;
 import utils.TimeUtils;
@@ -35,13 +36,14 @@ public class MainExecutor {
                 showDeleteEmployeeInterface(sc, systemController);
             } else if (option == 3) {
                 showPostTimeCardInterface(sc, systemController);
+            } else if (option == 4) {
+                showPostSalesReceiptInterface(sc, systemController);
             } else if (option == 6) {
                 systemController.runPayRollTill(TimeUtils.getTodayDateInMillis());
             }
         } while(option < 7);
 
     }
-
 
     public static void showAddEmployeeInterface(Scanner sc, SystemController systemController) {
         System.out.println("\n\nAdd New Employee");
@@ -60,8 +62,9 @@ public class MainExecutor {
             System.out.print("Enter the monthly salary of the employee => ");
             double salary = sc.nextDouble();
             sc.nextLine();
-            System.out.print("Enter the sales commission rate of the employee => ");
+            System.out.print("Enter the sales commission rate in percentage of the employee => ");
             double commissionRate = sc.nextDouble();
+            commissionRate /= 100;
             String employeeId = systemController.addSalariedEmployee(name, salary, commissionRate);
             updatePaymentDetails(employeeId, sc, systemController);
         } else {
@@ -135,6 +138,30 @@ public class MainExecutor {
         systemController.postTimeStamp(id, dateInMillis, hours);
     }
 
+    private static void showPostSalesReceiptInterface(Scanner sc, SystemController systemController) {
+        System.out.println("\n\nPost New Sales Receipt Card");
+        System.out.print("Do you want to view employee list? Y or N => ");
+        String choice = sc.next();
+        sc.nextLine();
+        if (choice.equals("Y")) {
+            // Showing only the Hourly Employees since other do not have time cards feature
+            showEmployeeList(systemController.getEmployeeList(SalariedEmployee.getStartingCode()));
+        }
+
+        System.out.print("Enter Employee Id of Employee to add sales receipt to  => ");
+        String id = sc.nextLine();
+
+        System.out.print("How many days elapsed since the sales was made. Today is 0, Yesterday = 1, so on => ");
+        int shift = sc.nextInt();
+        sc.nextLine();
+        long dateInMillis = TimeUtils.getTodayDateInMillis() - shift * TimeUtils.MILLIS_IN_DAY;
+
+        System.out.print("Sales amount => ");
+        double salesAmount = sc.nextDouble();
+        sc.nextLine();
+
+        systemController.postSalesReceipt(id, dateInMillis,salesAmount);
+    }
 
     public static void showEmployeeList(List<Employee> employees) {
         System.out.println("ID\t\t Name");

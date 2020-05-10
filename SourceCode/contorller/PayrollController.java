@@ -6,7 +6,6 @@ import models.HourlyEmployee;
 import models.SalariedEmployee;
 import utils.TimeUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PayrollController {

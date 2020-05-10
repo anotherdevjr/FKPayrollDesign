@@ -4,6 +4,7 @@ import database.DatabaseProvider;
 import models.Employee;
 import models.HourlyEmployee;
 import models.SalariedEmployee;
+import models.SalesReceipt;
 import models.paymentmodes.PaymentMode;
 import models.paymentmodes.PostalMode;
 import utils.EmployeeIDGenerator;
@@ -61,5 +62,15 @@ public class SystemController {
     public void setPaymentMode(String employeeId, PaymentMode paymentMode) {
         Employee employee  = databaseProvider.queryEmployeeById(employeeId);
         employee.setPaymentMode(paymentMode);
+    }
+
+    public void postSalesReceipt(String id, long dateInMillis, double salesAmount) {
+        Employee employee = databaseProvider.queryEmployeeById(id);
+        if (employee == null) {
+            return;
+        }
+        if (employee instanceof SalariedEmployee) {
+            ((SalariedEmployee) employee).postSalesReceipt(new SalesReceipt(dateInMillis, salesAmount));
+        }
     }
 }
