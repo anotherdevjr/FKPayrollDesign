@@ -16,6 +16,10 @@ public class DatabaseProvider {
         salesReceiptList = new ArrayList<>();
     }
 
+    public ArrayList<Employee> queryEmployeeList() {
+        return employeeList;
+    }
+
     public void addEmployee(Employee employee) {
         employeeList.add(employee);
     }

@@ -1,9 +1,12 @@
 package contorller;
 
 import database.DatabaseProvider;
+import models.Employee;
 import models.HourlyEmployee;
 import models.SalariedEmployee;
 import utils.EmployeeIDGenerator;
+
+import java.util.ArrayList;
 
 
 public class SystemController {
@@ -24,4 +27,11 @@ public class SystemController {
         databaseProvider.addEmployee(new SalariedEmployee(randomId, name, salary, commissionRate));
     }
 
+    public void deleteEmployeeWithId(String employeeId) {
+        databaseProvider.deleteEmployeeById(employeeId);
+    }
+
+    public ArrayList<Employee> getEmployeeList() {
+        return databaseProvider.queryEmployeeList();
+    }
 }

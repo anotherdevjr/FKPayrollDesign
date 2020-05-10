@@ -24,5 +24,6 @@ public abstract class Employee {
         return id;
     }
 
+    public String getName() { return name; }
     public abstract double getPay();
 }
