@@ -1,17 +1,19 @@
 package database;
 
 import models.Employee;
+import models.SalesReceipt;
 import models.TimeStamp;
-
 import java.util.ArrayList;
 
 public class EmployeeProvider {
     private final ArrayList<Employee> employeeList;
     private final ArrayList<TimeStamp> timeStampList;
+    private final ArrayList<SalesReceipt> salesReceiptList;
 
     public EmployeeProvider() {
         employeeList = new ArrayList<>();
         timeStampList = new ArrayList<>();
+        salesReceiptList = new ArrayList<>();
     }
 
     public void addEmployee(Employee employee) {
@@ -28,5 +30,13 @@ public class EmployeeProvider {
 
     public ArrayList<TimeStamp> getTimeStampsForEmployee(String employeeId) {
         return timeStampList;
+    }
+
+    public void postSalesReceipt(String id, SalesReceipt salesReceipt) {
+        salesReceiptList.add(salesReceipt);
+    }
+
+    public ArrayList<SalesReceipt> getSalesReceiptListForEmployee(String employeeId) {
+        return salesReceiptList;
     }
 }
