@@ -15,11 +15,30 @@ public class SalariedEmployee extends Employee{
         super(id, name);
         this.salary = salary;
         this.commissionRate = commissionRate;
-        this.lastPaidMonth = Calendar.MARCH;
+        this.lastPaidMonth = Calendar.MARCH;    //TODO: For testing lets assume all employees were paid in the month of
+                                                // March last time. To change later.
     }
 
-    public void postSalesReceipt(SalesReceipt    salesReceipt) {
+    /**
+     * Write the sales Receipt to the database
+     * @param salesReceipt
+     */
+    public void postSalesReceipt(SalesReceipt salesReceipt) {
         getDatabaseProvider().postSalesReceipt(getId(), salesReceipt);
+    }
+
+    /**
+     * Fetches list of sales before the end date and computes total commission on it.
+     * @param endDate The date which limits the sales which needs to be dispatched
+     * @return Commission for employee till given date
+     */
+    public double getSalesCommission(long endDate) {
+        List<SalesReceipt> allSalesReceipt = getDatabaseProvider().getSalesReceiptListForEmployee(getId(), endDate);
+        double commision = 0;
+        for(SalesReceipt receipt : allSalesReceipt) {
+            commision += receipt.getSalesAmount() * commissionRate;
+        }
+        return commision;
     }
 
     @Override
@@ -37,15 +56,6 @@ public class SalariedEmployee extends Employee{
     }
 
     public static String getStartingCode() {
-        return "E";
-    }
-
-    public double getSalesCommission(long endDate) {
-        List<SalesReceipt> allSalesReceipt = getDatabaseProvider().getSalesReceiptListForEmployee(getId(), endDate);
-        double commision = 0;
-        for(SalesReceipt receipt : allSalesReceipt) {
-            commision += receipt.getSalesAmount() * commissionRate;
-        }
-        return commision;
+        return "E";         // All salaried employees Id begin with E
     }
 }

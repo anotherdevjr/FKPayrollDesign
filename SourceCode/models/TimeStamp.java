@@ -6,6 +6,15 @@ public class TimeStamp {
     private final double hourlyRate;
     public static double OVERTIME_RATE_MULTIPLIER = 1.5;
 
+    /**
+     * Getting required params of Time Card. Saving hourlyRate
+     * because it might happen we update hourlyRate before
+     * old payment is processed. So, saving it along with the
+     * time card.
+     * @param dateInMillis
+     * @param noOfHours
+     * @param hourlyRate
+     */
     public TimeStamp(long dateInMillis, int noOfHours, double hourlyRate) {
         this.dateInMillis = dateInMillis;
         this.noOfHours = noOfHours;

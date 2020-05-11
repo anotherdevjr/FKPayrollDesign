@@ -11,6 +11,11 @@ public class HourlyEmployee extends Employee {
         this.hourlyRate = hourlyRate;
     }
 
+    /**
+     * Write the data of Time Card to database
+     * @param dateInMillis The date for the Time Card in milliseconds
+     * @param hours Hours worked on that day
+     */
     public void postTimeStamp(long dateInMillis, int hours) {
         getDatabaseProvider().postTimeStamp(getId(), new TimeStamp(dateInMillis, hours, hourlyRate));
     }
@@ -26,6 +31,6 @@ public class HourlyEmployee extends Employee {
     }
 
     public static String getStartingCode() {
-        return "H";
+        return "H";         //All Hourly employees have ID beginning with H
     }
 }

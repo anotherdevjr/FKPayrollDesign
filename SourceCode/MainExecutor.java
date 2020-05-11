@@ -9,6 +9,9 @@ import utils.TimeUtils;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Main class that handle all the user interactions
+ */
 public class MainExecutor {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -45,6 +48,11 @@ public class MainExecutor {
 
     }
 
+    /**
+     * Method managing the add employee CLI
+     * @param sc passed scanner to prevent repeated creation
+     * @param systemController passed controller to prevent repeated creation
+     */
     public static void showAddEmployeeInterface(Scanner sc, SystemController systemController) {
         System.out.println("\n\nAdd New Employee");
         System.out.print("Enter Name of Employee => ");
@@ -72,6 +80,12 @@ public class MainExecutor {
         }
     }
 
+    /**
+     * Method managing the payment details part
+     * @param employeeId Employee id which is being modified
+     * @param sc passed scanner to prevent repeated creation
+     * @param systemController passed controller to prevent repeated creation
+     */
     private static void updatePaymentDetails(String employeeId, Scanner sc, SystemController systemController) {
         System.out.println("\nAdded Employee. Employee Id is :" + employeeId);
         System.out.print("Mode of payment has been set to pickup. Do you want to change Y or N :");
@@ -98,7 +112,11 @@ public class MainExecutor {
     }
 
 
-
+    /**
+     * Method managing the delete employee CLI
+     * @param sc passed scanner to prevent repeated creation
+     * @param systemController passed controller to prevent repeated creation
+     */
     public static void showDeleteEmployeeInterface(Scanner sc, SystemController systemController) {
         System.out.println("\n\nDelete New Employee");
         System.out.print("Do you want to view employee list? Y or N => ");
@@ -113,6 +131,11 @@ public class MainExecutor {
         systemController.deleteEmployeeWithId(id);
     }
 
+    /**
+     * Method managing the Time card employee CLI
+     * @param sc passed scanner to prevent repeated creation
+     * @param systemController passed controller to prevent repeated creation
+     */
     private static void showPostTimeCardInterface(Scanner sc, SystemController systemController) {
         System.out.println("\n\nPost New Time Card");
         System.out.print("Do you want to view employee list? Y or N => ");
@@ -138,6 +161,11 @@ public class MainExecutor {
         systemController.postTimeStamp(id, dateInMillis, hours);
     }
 
+    /**
+     * Method managing the scales receipt employee CLI
+     * @param sc passed scanner to prevent repeated creation
+     * @param systemController passed controller to prevent repeated creation
+     */
     private static void showPostSalesReceiptInterface(Scanner sc, SystemController systemController) {
         System.out.println("\n\nPost New Sales Receipt Card");
         System.out.print("Do you want to view employee list? Y or N => ");
@@ -163,6 +191,10 @@ public class MainExecutor {
         systemController.postSalesReceipt(id, dateInMillis,salesAmount);
     }
 
+    /**
+     * Display the list of employees in a table
+     * @param employees : List of employees to be displayed
+     */
     public static void showEmployeeList(List<Employee> employees) {
         System.out.println("ID\t\t Name");
         System.out.println("-----------------------------------------");
